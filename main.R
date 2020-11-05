@@ -8,9 +8,10 @@ library(readxl)
 
 # Working directory where output file is saved.
 setwd("S:/HPPI/DataHub Files/sf12/")
+
 area <- as.character
 year <- as.numeric
-#as.numeric(year)
+
 year <- 2018
 
 for (year in 2018:1995){
@@ -58,7 +59,7 @@ for (year in 2018:1995){
   # Taking cleaned up data table and pivoting to machine readable format.
  sf_rural_tidy <- sf_rural_raw %>%
     pivot_longer('Capital_Interstate':'Maintenance_MinCol', names_to="COLUMN_KEY", values_to='Outlays') %>%
-    separate(COLUMN_KEY, into = c("Gender", "Age"), sep='_')
+    separate(COLUMN_KEY, into = c("Category", "Functional System"), sep='_')
 
   sf_rural_tidy <- sf_rural_tidy %>% add_column(area,.after = 'state_name')
   sf_rural_tidy <- sf_rural_tidy %>% add_column(year,.before = 'state_name')
@@ -95,7 +96,7 @@ for (year in 2018:1995){
   # Taking cleaned up data table and pivoting to machine readable format.
   sf_small_tidy <- sf_small_raw %>%
     pivot_longer('Capital_Interstate':'Maintenance_MinCol', names_to="COLUMN_KEY", values_to='Outlays') %>%
-    separate(COLUMN_KEY, into = c("Gender", "Age"), sep='_')
+    separate(COLUMN_KEY, into = c("Category", "Functional System"), sep='_')
 
   sf_small_tidy <- sf_small_tidy %>% add_column(area,.after = 'state_name')
   sf_small_tidy <- sf_small_tidy %>% add_column(year,.before = 'state_name')
@@ -132,7 +133,7 @@ for (year in 2018:1995){
   # Taking cleaned up data table and pivoting to machine readable format.
   sf_urban_tidy <- sf_urban_raw %>%
     pivot_longer('Capital_Interstate':'Maintenance_MinCol', names_to="COLUMN_KEY", values_to='Outlays') %>%
-    separate(COLUMN_KEY, into = c("Gender", "Age"), sep='_')
+    separate(COLUMN_KEY, into = c("Category", "Functional System"), sep='_')
 
   sf_urban_tidy <- sf_urban_tidy %>% add_column(area,.after = 'state_name')
   sf_urban_tidy <- sf_urban_tidy %>% add_column(year,.before = 'state_name')
