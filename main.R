@@ -13,15 +13,28 @@ area <- as.character
 year <- as.numeric
 sf_combined <- data.frame(matrix(ncol=6, nrow=0))
 
-year <- 2018
+#year <- 2015:1995
 
-for (year in 2018:1995){
+for (year in 2000:1995){
 
   startRow <- 12
 
-  # Reading input Excel file from OHPI website.
-  sf12_url <- paste0('https://www.fhwa.dot.gov/policyinformation/statistics/',year,'/xls/sf12.xlsx')
-  destination_file <- "sf12-download-fhwa.xlsx"
+  # Reading input Excel file from OHPI website
+short_year <- substr(year,3,4)
+if (year > 2006){
+  sf12_url <- paste0('https://www.fhwa.dot.gov/policyinformation/statistics/',year,'/xls/sf12.xls')
+}
+else if (year>2001){
+  sf12_url <- paste0('https://www.fhwa.dot.gov/policy/ohim/hs',short_year,'/xls/sf12.xls')
+}
+else if (year>1999){
+  sf12_url <- paste0('https://www.fhwa.dot.gov/ohim/hs',short_year,'/xls/sf12.xls')
+}
+else {
+  sf12_url <- paste0('https://www.fhwa.dot.gov/ohim/hs',short_year,'/excel/sf12.xls')
+}
+  destination_file <- paste0(year,"sf12-download-fhwa.xls")
+ # https://www.fhwa.dot.gov/policy/ohim/hs06/xls/sf12.xls
 
   if (!file.exists(destination_file)){
     download.file(sf12_url, destfile = destination_file, mode="wb")
@@ -35,14 +48,14 @@ for (year in 2018:1995){
 
   colnames (sf_rural_raw) <- c("state_name",
                               "Capital_Interstate",
-                              "Capital_FreewayExpress",
+                             # "Capital_FreewayExpress",
                               "Capital_OtherPrinArt",
                               "Capital_MinArt",
                               "Capital_MajCol",
                               "Capital_MinCol",
                               "Capital_Total",
                               "Maintenance_Interstate",
-                              "Maintenance_FreewayExpress",
+                            #  "Maintenance_FreewayExpress",
                               "Maintenance_OtherPrinArt",
                               "Maintenance_MinArt",
                               "Maintenance_MajCol",
@@ -72,14 +85,14 @@ for (year in 2018:1995){
   
   colnames (sf_small_raw) <- c("state_name",
                                 "Capital_Interstate",
-                                "Capital_FreewayExpress",
+                            #    "Capital_FreewayExpress",
                                 "Capital_OtherPrinArt",
                                 "Capital_MinArt",
                                 "Capital_MajCol",
                                 "Capital_MinCol",
                                 "Capital_Total",
                                 "Maintenance_Interstate",
-                                "Maintenance_FreewayExpress",
+                            #    "Maintenance_FreewayExpress",
                                 "Maintenance_OtherPrinArt",
                                 "Maintenance_MinArt",
                                 "Maintenance_MajCol",
@@ -109,14 +122,14 @@ for (year in 2018:1995){
 
   colnames (sf_urban_raw) <- c("state_name",
                                "Capital_Interstate",
-                               "Capital_FreewayExpress",
+                            #   "Capital_FreewayExpress",
                                "Capital_OtherPrinArt",
                                "Capital_MinArt",
                                "Capital_MajCol",
                                "Capital_MinCol",
                                "Capital_Total",
                                "Maintenance_Interstate",
-                               "Maintenance_FreewayExpress",
+                           #    "Maintenance_FreewayExpress",
                                "Maintenance_OtherPrinArt",
                                "Maintenance_MinArt",
                                "Maintenance_MajCol",
@@ -146,7 +159,7 @@ for (year in 2018:1995){
 
 sf_combined <- rbind(sf_combined,sf_tidy)
 
-  year == year-1
+ # year <- year-1
 }
 # Saving machine readable file.
 write.csv(sf_combined,file = 'combined_sf12.csv')
