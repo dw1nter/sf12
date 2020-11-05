@@ -11,6 +11,7 @@ setwd("S:/HPPI/DataHub Files/sf12/")
 
 area <- as.character
 year <- as.numeric
+sf_combined <- data.frame(matrix(ncol=6, nrow=0))
 
 year <- 2018
 
@@ -143,8 +144,11 @@ for (year in 2018:1995){
   # Saving machine readable file.
   write.csv(sf_tidy,file = paste0(year,'_sf12.csv'))
 
+sf_combined <- rbind(sf_combined,sf_tidy)
+
   year == year-1
 }
+# Saving machine readable file.
+write.csv(sf_combined,file = 'combined_sf12.csv')
 
-shell("Copy *_sf12.csv combined_sf12.csv") #Using DOS command to copy each individual year .csv into one file
 
